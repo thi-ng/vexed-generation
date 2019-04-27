@@ -69,15 +69,21 @@ float y2 = vg_osc_sin(@P.x, 4) + vg_osc_tri(@P.z, 4);
 
 ### Arrays
 
+[Source](vex/vgen_arrays.h)
+
 - `TYPE[] vg_into(TYPE a[]; const TYPE b[])`
 
 ### Attributes
+
+[Source](vex/vgen_attribs.h)
 
 - `TYPE[] vg_point_attribs_TYPE(int geo; string attr; const int pts[])`
 - `vector[] vg_point_positions(int geo; const int pts[])`
 - `vector[] vg_point_positions(int geo, prim)`
 
 ### Centroid
+
+[Source](vex/vgen_centroid.h)
 
 - `vector2 vg_centroid(const vector2 pts[])`
 - `vector vg_centroid(const vector pts[])`
@@ -87,6 +93,8 @@ float y2 = vg_osc_sin(@P.x, 4) + vg_osc_tri(@P.z, 4);
 - `int[] vg_add_edge_centroids_uv(int geo; const int pts[])`
 
 ### Disjoint Set
+
+[Source](vex/vgen_disjointset.h)
 
 A Disjoint Set is a data structure for undirected graphs:
 
@@ -107,6 +115,8 @@ ds->unified(0, 2);
 
 ### Distance
 
+[Source](vex/vgen_distance.h)
+
 - `vector vg_closest_point_line(const vector a; const vector b; const vector p)`
 - `vector vg_closest_point_edges(int geo; const int edges[]; const vector p)`
 - `float vg_dist_manhattan(TYPE a, b)`
@@ -117,7 +127,7 @@ ds->unified(0, 2);
 Implementation based on
 [thi.ng/ndarray](https://github.com/thi-ng/ndarray/blob/master/src/contours.org)
 
-[Source code](vex/bgen_marchingsquares.h)
+[Source](vex/vgen_marchingsquares.h)
 
 ```c
 float data[];
@@ -133,6 +143,8 @@ msq->find_contours(0, 0.1, ident());
 ```
 
 ### Maths
+
+[Source](vex/vgen_math.h)
 
 - `float vg_absmin(float a, b)`
 - `float vg_absmax(float a, b)`
@@ -160,6 +172,8 @@ msq->find_contours(0, 0.1, ident());
 
 ### Oscillators
 
+[Source](vex/vgen_osc.h)
+
 - `float vg_osc_cos(float phase, freq, amp, dc)`
 - `float vg_osc_saw(float phase, freq, amp, dc)`
 - `float vg_osc_sin(float phase, freq, amp, dc)`
@@ -184,6 +198,8 @@ Implementation based on [thi.ng/geom](https://github.com/thi-ng/geom/blob/develo
 [Source code](vex/vgen_ptf.h)
 
 ### Tessellators
+
+[Source](vex/vgen_tessel.h)
 
 - `int[] vg_tessellate_first(int geo; const int pts[])`
 - `int[] vg_tessellate_first(int geo, prim)`
