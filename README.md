@@ -63,3 +63,143 @@ float y2 = vg_osc_sin(@P.x, 4) + vg_osc_tri(@P.z, 4);
 @P.y = y + y2 * 0.05;
 ```
 
+## API
+
+`TYPE` here refers to one of possible types (`float`, `vector2`, `vector`, `vector4` etc).
+
+### Arrays
+
+- `TYPE[] vg_into(TYPE a[]; const TYPE b[])`
+
+### Attributes
+
+- `TYPE[] vg_point_attribs_TYPE(int geo; string attr; const int pts[])`
+- `vector[] vg_point_positions(int geo; const int pts[])`
+- `vector[] vg_point_positions(int geo, prim)`
+
+### Centroid
+
+- `vector2 vg_centroid(const vector2 pts[])`
+- `vector vg_centroid(const vector pts[])`
+- `vector vg_centroid(int geo; const int pts[])`
+- `vector vg_prim_centroid(int geo, prim)`
+- `int[] vg_add_edge_centroids(int geo; const int pts[])`
+- `int[] vg_add_edge_centroids_uv(int geo; const int pts[])`
+
+### Disjoint Set
+
+A Disjoint Set is a data structure for undirected graphs:
+
+```c
+vgDisjointSet ds;
+
+// init w/ max ID
+ds->init(10);
+
+// connect IDs
+ds->union(0, 3);
+ds->union(2, 3);
+
+// check if IDs are connected
+ds->unified(0, 2);
+// 1
+```
+
+### Distance
+
+- `vector vg_closest_point_line(const vector a; const vector b; const vector p)`
+- `vector vg_closest_point_edges(int geo; const int edges[]; const vector p)`
+- `float vg_dist_manhattan(TYPE a, b)`
+- `float vg_dist_chebyshev(TYPE a, b)`
+
+### 2D Marching Squares
+
+Implementation based on
+[thi.ng/ndarray](https://github.com/thi-ng/ndarray/blob/master/src/contours.org)
+
+[Source code](vex/bgen_marchingsquares.h)
+
+```c
+float data[];
+resize(data, cols * rows);
+for(int i = npoints(0); --i >= 0;) {
+    data[i] = vector(point(0,"P", i)).y;
+}
+
+vgMSQ msq;
+msq->init(data, cols, rows);
+// extract contours for isovalue 0.1
+msq->find_contours(0, 0.1, ident());
+```
+
+### Maths
+
+- `float vg_absmin(float a, b)`
+- `float vg_absmax(float a, b)`
+- `float vg_ceil(float x, prec)`
+- `TYPE vg_clamp(TYPE x, a, b)`
+- `TYPE vg_fract(TYPE x)`
+- `float vg_floor(float x, prec)`
+- `TYPE vg_mix(const TYPE a, b, t)`
+- `TYPE vg_mix_bilinear(const TYPE a, b, c, d; float u, v)`
+- `TYPE vg_mix_bilinear(const TYPE a, b, c, d; const vector2 uv)`
+- `TYPE vg_mod(TYPE x, y)`
+- `float vg_round(float x, prec)`
+- `TYPE vg_sclamp(TYPE x, a, b; float k)`
+- `TYPE vg_smin_exp(TYPE a, b; float k)`
+- `TYPE vg_smin_poly(TYPE a, b; float k)`
+- `TYPE vg_smin_pow(TYPE a, b; float k)`
+- `TYPE vg_smin(TYPE a, b; float k)`
+- `TYPE vg_smax(TYPE a, b; float k)`
+- `TYPE vg_smoothstep(const TYPE e, e2, t)`
+- `TYPE vg_smootherstep(const TYPE e, e2, t)`
+- `TYPE vg_step(const TYPE e, t)`
+- `float vg_signedArea2_xy(vector a,b,c)`
+- `float vg_signedArea2_xz(vector a,b,c)`
+- `float vg_signedArea2_yz(vector a,b,c)`
+
+### Oscillators
+
+- `float vg_osc_cos(float phase, freq, amp, dc)`
+- `float vg_osc_saw(float phase, freq, amp, dc)`
+- `float vg_osc_sin(float phase, freq, amp, dc)`
+- `float vg_osc_square(float phase, freq, amp, dc)`
+- `float vg_osc_sin(float phase, freq, amp, dc)`
+- `float vg_osc_tri(float phase, freq, amp, dc)`
+- `float vg_osc_tri_concave(float phase, freq, amp, dc)`
+- `float vg_osc_sinsaw(float phase,freq, amp, dc, t)`
+- `float vg_osc_sinsquare(float phase,freq, amp, dc, t)`
+- `float vg_osc_sintri(float phase,freq, amp, dc, t)`
+- `float vg_osc_sawsquare(float phase,freq, amp, dc, t)`
+- `float vg_osc_sawtri(float phase,freq, amp, dc, t)`
+- `float vg_osc_squaretri(float phase,freq, amp, dc, t)`
+- `float[] vg_sample_ramp(string op_path; int n)`
+- `float vg_osc_wavetable(float table[]; float phase, freq, amp, dc)`
+- `float vg_osc_by_id(string id; float phase, freq, amp, dc)`
+
+### Parallel Transport Frames
+
+Implementation based on [thi.ng/geom](https://github.com/thi-ng/geom/blob/develop/src/types/ptf.org)
+
+[Source code](vex/vgen_ptf.h)
+
+### Tessellators
+
+- `int[] vg_tessellate_first(int geo; const int pts[])`
+- `int[] vg_tessellate_first(int geo, prim)`
+- `int[] vg_tessellate_trifan(int geo; const int pts[])`
+- `int[] vg_tessellate_trifan(int geo, prim)`
+- `int[] vg_tessellate_quadfan(int geo; const int pts[])`
+- `int[] vg_tessellate_quadfan(int geo, prim)`
+- `int[] vg_tessellate_quadfan_uv(int geo; const int pts[])`
+- `int[] vg_tessellate_quadfan_uv(int geo, prim)`
+- `int[] vg_tessellate_mid(int geo; const int pts[])`
+- `int[] vg_tessellate_mid(int geo, prim)`
+- `int vg_add_triangle(int geo, a, b, c)`
+- `int[] vg_quad_strip(int geo; const int row1[]; const int row2[]; int num, closed)`
+
+## License
+
+This project is licensed under the Apache Software License 2.0
+
+&copy; 2016 Karsten Schmidt
