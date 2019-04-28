@@ -18,17 +18,30 @@
 #include <vgen_arrays.h>
 #include <vgen_centroid.h>
 
+int vg_add_triangle(int geo, a, b, c) {
+    int prim = addprim(0, "poly");
+    addvertex(geo, prim, a);
+    addvertex(geo, prim, b);
+    addvertex(geo, prim, c);
+    return prim;
+}
+
+int vg_add_quad(int geo, a, b, c, d) {
+    int prim = addprim(0, "poly");
+    addvertex(geo, prim, a);
+    addvertex(geo, prim, b);
+    addvertex(geo, prim, c);
+    addvertex(geo, prim, d);
+    return prim;
+}
+
 int[] vg_tessellate_first(int geo; const int pts[]) {
     int q = pts[0];
     int n = len(pts);
     int prims[];
-    resize(prims, n-2);
-    for(int i = 1; i < n-1; i++) {
-        int p = addprim(geo, "poly");
-        addvertex(geo, p, q);
-        addvertex(geo, p, pts[i]);
-        addvertex(geo, p, pts[i + 1]);
-        prims[i] = p;
+    resize(prims, n - 2);
+    for (int i = 1; i < n - 1; i++) {
+        prims[i] = vg_add_triangle(geo, q, pts[i], pts[i + 1]);
     }
     return prims;
 }
@@ -44,12 +57,8 @@ int[] vg_tessellate_trifan(int geo; const int pts[]) {
     int n = len(pts);
     int prims[];
     resize(prims, n);
-    for(int i = n - 1, j = 0; j < n; i = j, j++) {
-        int p = addprim(geo, "poly");
-        addvertex(geo, p, c);
-        addvertex(geo, p, pts[i]);
-        addvertex(geo, p, pts[j]);
-        prims[j] = p;
+    for (int i = n - 1, j = 0; j < n; i = j, j++) {
+        prims[j] = vg_add_triangle(geo, c, pts[i], pts[j]);
     }
     return prims;
 }
@@ -62,17 +71,12 @@ int[] vg_tessellate_trifan(int geo, prim) {
 
 int[] vg_tessellate_quadfan(int geo; const int pts[]) {
     int mpts[] = vg_add_edge_centroids(geo, pts);
-    int c = addpoint(geo, vg_centroid(geo, pts));
-    int n = len(pts);
+    int c      = addpoint(geo, vg_centroid(geo, pts));
+    int n      = len(pts);
     int prims[];
     resize(prims, n);
-    for(int i = n - 1, j = 0; j < n; i = j, j++) {
-        int p = addprim(geo, "poly");
-        addvertex(geo, p, c);
-        addvertex(geo, p, mpts[i]);
-        addvertex(geo, p, pts[j]);
-        addvertex(geo, p, mpts[j]);
-        prims[j] = p;
+    for (int i = n - 1, j = 0; j < n; i = j, j++) {
+        prims[j] = vg_add_quad(geo, c, mpts[i], pts[j], mpts[j]);
     }
     return prims;
 }
@@ -84,20 +88,15 @@ int[] vg_tessellate_quadfan(int geo, prim) {
 }
 
 int[] vg_tessellate_quadfan_uv(int geo; const int pts[]) {
-    int mpts[] = vg_add_edge_centroids_uv(geo, pts);
-    int c = addpoint(geo, vg_centroid(geo, pts));
+    int mpts[]  = vg_add_edge_centroids_uv(geo, pts);
+    int c       = addpoint(geo, vg_centroid(geo, pts));
     vector2 cuv = vg_centroid(vg_point_attribs_vector2(geo, "uv", pts));
     setpointattrib(geo, "uv", c, cuv);
     int n = len(pts);
     int prims[];
     resize(prims, n);
-    for(int i = n - 1, j = 0; j < n; i = j, j++) {
-        int p = addprim(geo, "poly");
-        addvertex(geo, p, c);
-        addvertex(geo, p, mpts[i]);
-        addvertex(geo, p, pts[j]);
-        addvertex(geo, p, mpts[j]);
-        prims[j] = p;
+    for (int i = n - 1, j = 0; j < n; i = j, j++) {
+        prims[j] = vg_add_quad(geo, c, mpts[i], pts[j], mpts[j]);
     }
     return prims;
 }
@@ -110,18 +109,14 @@ int[] vg_tessellate_quadfan_uv(int geo, prim) {
 
 int[] vg_tessellate_mid(int geo; const int pts[]) {
     int mpts[] = vg_add_edge_centroids(geo, pts);
-    int n = len(pts);
+    int n      = len(pts);
     int prims[];
     resize(prims, n + 1);
-    for(int i = n - 1, j = 0; j < n; i = j, j++) {
-        int p = addprim(geo, "poly");
-        addvertex(geo, p, mpts[i]);
-        addvertex(geo, p, pts[j]);
-        addvertex(geo, p, mpts[j]);
-        prims[j] = p;
+    for (int i = n - 1, j = 0; j < n; i = j, j++) {
+        prims[j] = vg_add_triangle(geo, mpts[i], pts[j], mpts[j]);
     }
     int p = addprim(geo, "poly");
-    for(int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         addvertex(geo, p, mpts[i]);
     }
     prims[n - 1] = p;
@@ -134,15 +129,8 @@ int[] vg_tessellate_mid(int geo, prim) {
     return prims;
 }
 
-int vg_add_triangle(int geo, a, b, c) {
-    int prim = addprim(0, "poly");
-    addvertex(geo, prim, a);
-    addvertex(geo, prim, b);
-    addvertex(geo, prim, c);
-    return prim;
-}
-
-int[] vg_quad_strip(int geo; const int row1[]; const int row2[]; int num, closed) {
+int[] vg_quad_strip(int geo; const int row1[]; const int row2[];
+                    int num, closed) {
     int res[], i, j;
     resize(res, closed ? num : num - 1);
     if (closed) {
@@ -152,13 +140,8 @@ int[] vg_quad_strip(int geo; const int row1[]; const int row2[]; int num, closed
         i = 1;
         j = 0;
     }
-    for(int k = 0; i < num; j = i, i++, k++) {
-        int prim = addprim(0, "poly");
-        addvertex(geo, prim, row1[j]);
-        addvertex(geo, prim, row1[i]);
-        addvertex(geo, prim, row2[i]);
-        addvertex(geo, prim, row2[j]);
-        res[k] = prim;
+    for (int k = 0; i < num; j = i, i++, k++) {
+        res[k] = vg_add_quad(geo, row1[j], row1[i], row2[i], row2[j]);
     }
     return res;
 }

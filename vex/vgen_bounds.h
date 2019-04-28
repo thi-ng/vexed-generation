@@ -20,10 +20,11 @@ struct vgAABB {
     vector size;
 }
 
-vgAABB vg_aabb_normalized(int geo) {
-    vector c = getbbox_center(0);
+vgAABB
+vg_aabb_normalized(int geo) {
+    vector c    = getbbox_center(0);
     vector size = getbbox_size(0);
-    float s = 1.0 / max(size.x, size.y, size.z);
+    float s     = 1.0 / max(size.x, size.y, size.z);
     return vgAABB(c * s, size * s, s);
 }
 

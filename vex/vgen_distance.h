@@ -17,14 +17,14 @@
 
 vector vg_closest_point_line(const vector a; const vector b; const vector p) {
     float len = length(b - a);
-    if(len < EPS) {
-	    return a;
+    if (len < EPS) {
+        return a;
     }
     float t = dot(p - a, b - a) / (len * len);
-    if(t < 0) {
-	    return a;
-    } else if(t > 1) {
-	    return b;
+    if (t < 0) {
+        return a;
+    } else if (t > 1) {
+        return b;
     }
     return a + (b - a) * t;
 }
@@ -35,11 +35,12 @@ vector vg_closest_point_line(const vector a; const vector b; const vector p) {
 vector vg_closest_point_edges(int geo; const int edges[]; const vector p) {
     vector closest;
     float minD = 1e6;
-    for(int i = len(edges) - 2; i >= 0; i -= 2) {
-        vector q = vg_closest_point_line(point(geo, "P", edges[i]), point(geo, "P", edges[i+1]), p);
-        float d = distance(p, q);
+    for (int i = len(edges) - 2; i >= 0; i -= 2) {
+        vector q = vg_closest_point_line(point(geo, "P", edges[i]),
+                                         point(geo, "P", edges[i + 1]), p);
+        float d  = distance(p, q);
         if (d < minD) {
-            minD = d;
+            minD    = d;
             closest = q;
         }
     }

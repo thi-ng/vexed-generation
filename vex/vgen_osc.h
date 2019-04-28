@@ -18,30 +18,30 @@
 #include <math.h>
 #include <vgen_math.h>
 
-#define OSC(fn) \
-float fn(float phase, freq, amp) { \
-    return fn(phase, freq, amp, 0); \
-} \
-float fn(float phase, freq) { \
-    return fn(phase, freq, 1, 0); \
-}
+#define OSC(fn)                         \
+    float fn(float phase, freq, amp) {  \
+        return fn(phase, freq, amp, 0); \
+    }                                   \
+    float fn(float phase, freq) {       \
+        return fn(phase, freq, 1, 0);   \
+    }
 
-#define OSCX(fn, x) \
-float fn(float phase, freq, amp, dc) { \
-    return fn(phase, freq, amp, dc, x); \
-} \
-float fn(float phase, freq, amp) { \
-    return fn(phase, freq, amp, 0, x); \
-} \
-float fn(float phase,freq) { \
-    return fn(phase, freq, 1, 0, x); \
-}
+#define OSCX(fn, x)                         \
+    float fn(float phase, freq, amp, dc) {  \
+        return fn(phase, freq, amp, dc, x); \
+    }                                       \
+    float fn(float phase, freq, amp) {      \
+        return fn(phase, freq, amp, 0, x);  \
+    }                                       \
+    float fn(float phase, freq) {           \
+        return fn(phase, freq, 1, 0, x);    \
+    }
 
 /**
  * Sine oscillator
  */
 float vg_osc_sin(float phase, freq, amp, dc) {
-  return dc + amp * sin(phase * freq * TAU);
+    return dc + amp * sin(phase * freq * TAU);
 }
 
 OSC(vg_osc_sin)
@@ -50,7 +50,7 @@ OSC(vg_osc_sin)
  * Cosine oscillator
  */
 float vg_osc_cos(float phase, freq, amp, dc) {
-  return dc + amp * cos(phase * freq * TAU);
+    return dc + amp * cos(phase * freq * TAU);
 }
 
 OSC(vg_osc_cos)
@@ -59,7 +59,7 @@ OSC(vg_osc_cos)
  * Triangle oscillator
  */
 float vg_osc_tri(float phase, freq, amp, dc) {
-  return dc + amp * (abs((phase * freq * 4) % 4 - 2) - 1);
+    return dc + amp * (abs((phase * freq * 4) % 4 - 2) - 1);
 }
 
 OSC(vg_osc_tri)
@@ -68,7 +68,7 @@ OSC(vg_osc_tri)
  * Concave curved triangle oscillator
  */
 float vg_osc_tri_concave(float phase, freq, amp, dc) {
-  return dc + amp * (8 * pow(frac(phase * freq) - 0.5, 2) - 1);
+    return dc + amp * (8 * pow(frac(phase * freq) - 0.5, 2) - 1);
 }
 
 OSC(vg_osc_tri_concave)
@@ -77,7 +77,7 @@ OSC(vg_osc_tri_concave)
  * Square oscillator (with configurable duty cycle)
  */
 float vg_osc_square(float phase, freq, amp, dc, duty) {
-  return dc + amp * (((phase * freq) % 1) < duty ? 1 : -1);
+    return dc + amp * (((phase * freq) % 1) < duty ? 1 : -1);
 }
 
 OSCX(vg_osc_square, 0.5)
@@ -86,7 +86,7 @@ OSCX(vg_osc_square, 0.5)
  * Sawtooth oscillator
  */
 float vg_osc_saw(float phase, freq, amp, dc) {
-  return dc + amp * (((phase * freq) % 1) * 2 - 1);
+    return dc + amp * (((phase * freq) % 1) * 2 - 1);
 }
 
 OSC(vg_osc_saw)
@@ -94,8 +94,9 @@ OSC(vg_osc_saw)
 /**
  * Interpolated Sine-Sawtooth oscillator
  */
-float vg_osc_sinsaw(float phase,freq, amp, dc, t) {
-    return vg_mix(vg_osc_sin(phase, freq, amp, dc), vg_osc_saw(phase, freq, amp, dc), t);
+float vg_osc_sinsaw(float phase, freq, amp, dc, t) {
+    return vg_mix(vg_osc_sin(phase, freq, amp, dc),
+                  vg_osc_saw(phase, freq, amp, dc), t);
 }
 
 OSCX(vg_osc_sinsaw, 0.5)
@@ -103,8 +104,9 @@ OSCX(vg_osc_sinsaw, 0.5)
 /**
  * Interpolated Sine-Square oscillator
  */
-float vg_osc_sinsquare(float phase,freq, amp, dc, t) {
-    return vg_mix(vg_osc_sin(phase, freq, amp, dc), vg_osc_square(phase, freq, amp, dc), t);
+float vg_osc_sinsquare(float phase, freq, amp, dc, t) {
+    return vg_mix(vg_osc_sin(phase, freq, amp, dc),
+                  vg_osc_square(phase, freq, amp, dc), t);
 }
 
 OSCX(vg_osc_sinsquare, 0.5)
@@ -112,8 +114,9 @@ OSCX(vg_osc_sinsquare, 0.5)
 /**
  * Interpolated Sine-Triangle oscillator
  */
-float vg_osc_sintri(float phase,freq, amp, dc, t) {
-    return vg_mix(vg_osc_sin(phase, freq, amp, dc), vg_osc_tri(phase, freq, amp, dc), t);
+float vg_osc_sintri(float phase, freq, amp, dc, t) {
+    return vg_mix(vg_osc_sin(phase, freq, amp, dc),
+                  vg_osc_tri(phase, freq, amp, dc), t);
 }
 
 OSCX(vg_osc_sintri, 0.5)
@@ -121,8 +124,9 @@ OSCX(vg_osc_sintri, 0.5)
 /**
  * Interpolated Saw-Square oscillator
  */
-float vg_osc_sawsquare(float phase,freq, amp, dc, t) {
-    return vg_mix(vg_osc_saw(phase, freq, amp, dc), vg_osc_square(phase, freq, amp, dc), t);
+float vg_osc_sawsquare(float phase, freq, amp, dc, t) {
+    return vg_mix(vg_osc_saw(phase, freq, amp, dc),
+                  vg_osc_square(phase, freq, amp, dc), t);
 }
 
 OSCX(vg_osc_sawsquare, 0.5)
@@ -130,8 +134,9 @@ OSCX(vg_osc_sawsquare, 0.5)
 /**
  * Interpolated Saw-Triangle oscillator
  */
-float vg_osc_sawtri(float phase,freq, amp, dc, t) {
-    return vg_mix(vg_osc_saw(phase, freq, amp, dc), vg_osc_tri(phase, freq, amp, dc), t);
+float vg_osc_sawtri(float phase, freq, amp, dc, t) {
+    return vg_mix(vg_osc_saw(phase, freq, amp, dc),
+                  vg_osc_tri(phase, freq, amp, dc), t);
 }
 
 OSCX(vg_osc_sawtri, 0.5)
@@ -139,8 +144,9 @@ OSCX(vg_osc_sawtri, 0.5)
 /**
  * Interpolated Square-Triangle oscillator
  */
-float vg_osc_squaretri(float phase,freq, amp, dc, t) {
-    return vg_mix(vg_osc_square(phase, freq, amp, dc), vg_osc_tri(phase, freq, amp, dc), t);
+float vg_osc_squaretri(float phase, freq, amp, dc, t) {
+    return vg_mix(vg_osc_square(phase, freq, amp, dc),
+                  vg_osc_tri(phase, freq, amp, dc), t);
 }
 
 OSCX(vg_osc_squaretri, 0.5)
@@ -151,7 +157,7 @@ OSCX(vg_osc_squaretri, 0.5)
 float[] vg_sample_ramp(string op_path; int n) {
     float res[];
     resize(res, n);
-    for(int nn = n - 1, i = nn; i >= 0; i--) {
+    for (int nn = n - 1, i = nn; i >= 0; i--) {
         res[i] = chramp(op_path, float(i) / nn);
     }
     return res;

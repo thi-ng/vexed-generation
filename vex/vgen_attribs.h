@@ -15,16 +15,16 @@
 #ifndef __vgen_attribs_h__
 #define __vgen_attribs_h__
 
-#define ATTRIBS(TYPE) \
-TYPE[] vg_point_attribs_##TYPE(int geo; string attr; const int pts[]) { \
-    int n = len(pts);                                                   \
-    TYPE res[];                                                         \
-    resize(res, n);                                                     \
-    for (int i = n - 1; i >= 0; i--) {                                  \
-        res[i] = point(geo, attr, pts[i]);                              \
-    }                                                                   \
-    return res;                                                         \
-}
+#define ATTRIBS(TYPE)                                                       \
+    TYPE[] vg_point_attribs_##TYPE(int geo; string attr; const int pts[]) { \
+        int n = len(pts);                                                   \
+        TYPE res[];                                                         \
+        resize(res, n);                                                     \
+        for (int i = 0; i < n; i++) {                                       \
+            res[i] = point(geo, attr, pts[i]);                              \
+        }                                                                   \
+        return res;                                                         \
+    }
 
 ATTRIBS(int)
 ATTRIBS(float)

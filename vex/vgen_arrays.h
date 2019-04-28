@@ -15,16 +15,16 @@
 #ifndef __vgen_arrays_h__
 #define __vgen_arrays_h__
 
-#define INTO(TYPE) \
-TYPE[] vg_into(TYPE a[]; const TYPE b[]) { \
-    int na = len(a);                  \
-    int nb = len(b);                  \
-    resize(a, na + nb);               \
-    for(int i = 0; i < nb; i++) {     \
-        a[na + i] = b[i];             \
-    }                                 \
-    return a;                         \
-}
+#define INTO(TYPE)                             \
+    TYPE[] vg_into(TYPE a[]; const TYPE b[]) { \
+        int na = len(a);                       \
+        int nb = len(b);                       \
+        resize(a, na + nb);                    \
+        for (int i = 0; i < nb; i++) {         \
+            a[na + i] = b[i];                  \
+        }                                      \
+        return a;                              \
+    }
 
 INTO(int)
 INTO(float)

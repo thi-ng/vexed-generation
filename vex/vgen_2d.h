@@ -15,15 +15,15 @@
 #ifndef __vgen_2d_h__
 #define __vgen_2d_h__
 
-float vg_signedArea2_xy(vector a,b,c) {
+float vg_signedArea2_xy(vector a, b, c) {
     return (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1]);
 }
 
-float vg_signedArea2_xz(vector a,b,c) {
+float vg_signedArea2_xz(vector a, b, c) {
     return (b[0] - a[0]) * (c[2] - a[2]) - (c[0] - a[0]) * (b[2] - a[2]);
 }
 
-float vg_signedArea2_yz(vector a,b,c) {
+float vg_signedArea2_yz(vector a, b, c) {
     return (b[1] - a[1]) * (c[2] - a[2]) - (c[1] - a[1]) * (b[2] - a[2]);
 }
 

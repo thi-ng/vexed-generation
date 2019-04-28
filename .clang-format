@@ -1,0 +1,13 @@
+BasedOnStyle: Google
+AllowAllParametersOfDeclarationOnNextLine: false
+AlignConsecutiveAssignments: true
+AllowShortBlocksOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+BinPackParameters: false
+BreakBeforeBraces: Attach
+ColumnLimit: 80
+IndentWidth: 4
+ReflowComments: false
+SortIncludes: true

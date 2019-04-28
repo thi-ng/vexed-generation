@@ -25,10 +25,10 @@ struct vgGridIter {
 
     void init(int _x, _y, _w, _h) {
         x = x0 = _x;
-        y = _y;
-        w = _w;
-        h = _h;
-        more = 1;
+        y      = _y;
+        w      = _w;
+        h      = _h;
+        more   = 1;
     }
 
     int has_next() {
@@ -80,8 +80,8 @@ struct vgMSQ {
 
     void init(float _src[]; int _w, _h) {
         src = _src;
-        w = _w;
-        h = _h;
+        w   = _w;
+        h   = _h;
     }
 
     int[] encode_crossings() {
@@ -93,12 +93,10 @@ struct vgMSQ {
             int i = y * w;
             for (int x = 0; x < w1; x++) {
                 int idx = i + x;
-                out[idx] = (
-                    (src[idx] < iso ? 8 : 0) +
-                    (src[idx + 1] < iso ? 4 : 0) +
-                    (src[idx + 1 + w] < iso ? 2 : 0) +
-                    (src[idx + w] < iso ? 1 : 0)
-                );
+                out[idx] =
+                    ((src[idx] < iso ? 8 : 0) + (src[idx + 1] < iso ? 4 : 0) +
+                     (src[idx + 1 + w] < iso ? 2 : 0) +
+                     (src[idx + w] < iso ? 1 : 0));
             }
         }
         return out;
@@ -106,7 +104,8 @@ struct vgMSQ {
 
     float mean_cell_value(int x, y) {
         int idx = y * w + x;
-        return (src[idx] + src[idx + 1] + src[idx + w] + src[idx + w + 1]) * 0.25;
+        return (src[idx] + src[idx + 1] + src[idx + w] + src[idx + w + 1]) *
+               0.25;
     }
 
     float find_iso(int x1, y1, x2, y2) {
@@ -116,7 +115,7 @@ struct vgMSQ {
     }
 
     vector contour_vertex(int x, y, to) {
-        if(to == 0) {
+        if (to == 0) {
             return set(x + this->find_iso(x, y, x + 1, y), y, 0);
         } else if (to == 1) {
             return set(x + 1, y + this->find_iso(x + 1, y, x + 1, y + 1), 0);
@@ -128,16 +127,18 @@ struct vgMSQ {
     }
 
     int[] find_contours(int geo; float _iso; matrix tx) {
-        iso = _iso;
-        int edgeIndex[] = { -1, -1, 2, 0, 1, 0, 1, 0, 0, 0, -1, -1, 0, 0, 0, 0, 3, 0, 2, 0, -1, -1, 1, 0, 3, 0, 2, 0, 3, 0, -1, -1 };
-        int nextEdges[] = { 0, -1, 1, 0, 0, 1, -1, 0 };
-        int s5[] = { 2, 4, 0, 1, 0, 13, 2, 7 };
-        int s10[] = { 3, 2, 1, 8, 3, 11, 1, 14 };
+        iso             = _iso;
+        int edgeIndex[] = {-1, -1, 2, 0, 1, 0, 1, 0, 0,  0,  -1,
+                           -1, 0,  0, 0, 0, 3, 0, 2, 0,  -1, -1,
+                           1,  0,  3, 0, 2, 0, 3, 0, -1, -1};
+        int nextEdges[] = {0, -1, 1, 0, 0, 1, -1, 0};
+        int s5[]        = {2, 4, 0, 1, 0, 13, 2, 7};
+        int s10[]       = {3, 2, 1, 8, 3, 11, 1, 14};
 
         int coded[] = this->encode_crossings();
         int prims[];
         int curr = -1;
-        int to = -1;
+        int to   = -1;
         int from;
         int idx, clear;
         int x, y;
@@ -146,23 +147,28 @@ struct vgMSQ {
         vgGridIter cells;
         cells->init(1, 1, w - 1, h - 1);
         while (cells->has_next()) {
-            from = to;
-            p = hasP ? p : cells->next();
-            hasP = true;
-            x = p[0];
-            y = p[1];
+            from   = to;
+            p      = hasP ? p : cells->next();
+            hasP   = true;
+            x      = p[0];
+            y      = p[1];
             int id = coded[y * w + x];
             if (id == 5) {
-                idx = ((this->mean_cell_value(x, y) > iso ? 0 : 2) + (from == 3 ? 0 : 1)) * 2;
-                to = s5[idx];
+                idx = ((this->mean_cell_value(x, y) > iso ? 0 : 2) +
+                       (from == 3 ? 0 : 1)) *
+                      2;
+                to    = s5[idx];
                 clear = s5[idx + 1];
             } else if (id == 10) {
-                idx = ((this->mean_cell_value(x, y) > iso) ? (from == 0 ? 0 : 1) : (from == 2 ? 2 : 3)) * 2;
-                to = s10[idx];
+                idx = ((this->mean_cell_value(x, y) > iso)
+                           ? (from == 0 ? 0 : 1)
+                           : (from == 2 ? 2 : 3)) *
+                      2;
+                to    = s10[idx];
                 clear = s10[idx + 1];
             } else {
                 id *= 2;
-                to = edgeIndex[id];
+                to    = edgeIndex[id];
                 clear = edgeIndex[id + 1];
             }
             if (from == -1 && to != -1 && curr != -1) {
@@ -176,11 +182,12 @@ struct vgMSQ {
                 if (curr == -1) {
                     curr = addprim(geo, "poly");
                 }
-                addvertex(geo, curr, addpoint(geo, tx * this->contour_vertex(x, y, to)));
+                addvertex(geo, curr,
+                          addpoint(geo, tx * this->contour_vertex(x, y, to)));
                 p[0] += nextEdges[to * 2];
                 p[1] += nextEdges[to * 2 + 1];
             } else {
-               hasP = 0;
+                hasP = 0;
             }
         }
         if (curr != -1) {

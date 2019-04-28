@@ -16,7 +16,6 @@
 #define __vgen_unionfind_h__
 
 struct vgDisjointSet {
-
     int roots[];
     int ranks[];
     int count;
@@ -66,7 +65,7 @@ struct vgDisjointSet {
         if (ra < rb) {
             return roots[rootA] = rootB;
         }
-        ra == rb && ranks[rootA]++;
+        ra == rb&& ranks[rootA]++;
         return roots[rootB] = rootA;
     }
 
