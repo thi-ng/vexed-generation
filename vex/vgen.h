@@ -13,7 +13,7 @@
 //  (c) 2016 Karsten Schmidt // ASL 2.0 licensed
 
 #define VG_VERSION_MAJOR 1
-#define VG_VERSION_MINOR 0
+#define VG_VERSION_MINOR 1
 #define VG_VERSION_PATCH 0
 
 #include <vgen_2d.h>

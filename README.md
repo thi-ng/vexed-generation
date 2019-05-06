@@ -148,15 +148,16 @@ msq->find_contours(0, 0.1, ident());
 
 - `float vg_absmin(float a, b)`
 - `float vg_absmax(float a, b)`
-- `float vg_ceil(float x, prec)`
+- `TYPE vg_ceil(TYPE x, prec)`
 - `TYPE vg_clamp(TYPE x, a, b)`
+- `int vg_eqdelta(TYPE a, b; float eps)`
 - `TYPE vg_fract(TYPE x)`
-- `float vg_floor(float x, prec)`
+- `TYPE vg_floor(TYPE x, prec)`
 - `TYPE vg_mix(const TYPE a, b, t)`
 - `TYPE vg_mix_bilinear(const TYPE a, b, c, d; float u, v)`
 - `TYPE vg_mix_bilinear(const TYPE a, b, c, d; const vector2 uv)`
 - `TYPE vg_mod(TYPE x, y)`
-- `float vg_round(float x, prec)`
+- `TYPE vg_round(TYPE x, prec)`
 - `TYPE vg_sclamp(TYPE x, a, b; float k)`
 - `TYPE vg_smin_exp(TYPE a, b; float k)`
 - `TYPE vg_smin_poly(TYPE a, b; float k)`
