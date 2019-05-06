@@ -15,7 +15,7 @@
 #ifndef __vgen_arrays_h__
 #define __vgen_arrays_h__
 
-#define INTO(TYPE)                             \
+#define VG_INTO(TYPE)                          \
     TYPE[] vg_into(TYPE a[]; const TYPE b[]) { \
         int na = len(a);                       \
         int nb = len(b);                       \
@@ -26,15 +26,15 @@
         return a;                              \
     }
 
-INTO(int)
-INTO(float)
-INTO(string)
-INTO(vector2)
-INTO(vector)
-INTO(vector4)
-INTO(matrix2)
-INTO(matrix3)
-INTO(matrix)
-#undef INTO
+VG_INTO(int)
+VG_INTO(float)
+VG_INTO(string)
+VG_INTO(vector2)
+VG_INTO(vector)
+VG_INTO(vector4)
+VG_INTO(matrix2)
+VG_INTO(matrix3)
+VG_INTO(matrix)
+#undef VG_INTO
 
 #endif

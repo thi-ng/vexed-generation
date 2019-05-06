@@ -15,7 +15,7 @@
 #ifndef __vgen_attribs_h__
 #define __vgen_attribs_h__
 
-#define ATTRIBS(TYPE)                                                       \
+#define VG_ATTRIBS(TYPE)                                                    \
     TYPE[] vg_point_attribs_##TYPE(int geo; string attr; const int pts[]) { \
         int n = len(pts);                                                   \
         TYPE res[];                                                         \
@@ -24,14 +24,17 @@
             res[i] = point(geo, attr, pts[i]);                              \
         }                                                                   \
         return res;                                                         \
+    }                                                                       \
+    TYPE[] vg_point_attribs_##TYPE(int geo; string attr; const int prim) {  \
+        return vg_point_attribs_##TYPE(geo, attr, primpoints(geo, prim));   \
     }
 
-ATTRIBS(int)
-ATTRIBS(float)
-ATTRIBS(vector2)
-ATTRIBS(vector)
-ATTRIBS(vector4)
-#undef ATTRIBS
+VG_ATTRIBS(int)
+VG_ATTRIBS(float)
+VG_ATTRIBS(vector2)
+VG_ATTRIBS(vector)
+VG_ATTRIBS(vector4)
+#undef VG_ATTRIBS
 
 vector[] vg_point_positions(int geo; const int pts[]) {
     return vg_point_attribs_vector(geo, "P", pts);
