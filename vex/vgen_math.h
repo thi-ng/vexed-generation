@@ -25,24 +25,17 @@
 /**
  * Like VEX built-in `clamp()`, but supports vector2
  */
-#define CLAMP(TYPE)               \
+#define VG_CLAMP(TYPE)            \
     TYPE vg_clamp(TYPE x, a, b) { \
         return clamp(x, a, b);    \
     }
 
-CLAMP(int)
-CLAMP(float)
-CLAMP(vector)
-CLAMP(vector4)
-
-vector2 vg_clamp(const vector2 x, a, b) {
-    vector2 res;
-    res.x = clamp(x.x, a.x, b.x);
-    res.y = clamp(x.y, a.y, b.y);
-    return res;
-}
-
-#undef CLAMP
+VG_CLAMP(int)
+VG_CLAMP(float)
+VG_CLAMP(vector2)
+VG_CLAMP(vector)
+VG_CLAMP(vector4)
+#undef VG_CLAMP
 
 /**
  * Smooth minimum functions based on:
@@ -51,7 +44,7 @@ vector2 vg_clamp(const vector2 x, a, b) {
  * Recommended default `k = 32`
  */
 
-#define SMINMAX(NAME)                                                     \
+#define VG_SMINMAX(NAME)                                                  \
     vector2 NAME(vector2 a, b; float k) {                                 \
         vector2 c = set(NAME(a.x, b.x, k), NAME(a.y, b.y, k));            \
         return c;                                                         \
@@ -70,20 +63,20 @@ vector2 vg_clamp(const vector2 x, a, b) {
 float vg_smin_exp(float a, b, k) {
     return -log(exp(-k * a) + exp(-k * b)) / k;
 }
-SMINMAX(vg_smin_exp)
+VG_SMINMAX(vg_smin_exp)
 
 float vg_smin_poly(float a, b, k) {
     float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
     return vg_mix(b, a, h) - k * h * (1.0 - h);
 }
-SMINMAX(vg_smin_poly)
+VG_SMINMAX(vg_smin_poly)
 
 float vg_smin_pow(float a, b, k) {
     float pa = pow(a, k);
     float pb = pow(b, k);
     return pow((pa * pb) / (pa + pb), 1.0 / k);
 }
-SMINMAX(vg_smin_pow)
+VG_SMINMAX(vg_smin_pow)
 
 /**
  * Smooth minimum & maximum based on:
@@ -96,16 +89,15 @@ float vg_smin(float a, b, k) {
     float eb = exp(-k * b);
     return (a * ea + b * eb) / (ea + eb);
 }
-SMINMAX(vg_smin)
+VG_SMINMAX(vg_smin)
 
 float vg_smax(float a, b, k) {
     float ea = exp(k * a);
     float eb = exp(k * b);
     return (a * ea + b * eb) / (ea + eb);
 }
-SMINMAX(vg_smax)
-
-#undef SMINMAX
+VG_SMINMAX(vg_smax)
+#undef VG_SMINMAX
 
 float vg_sclamp(float x, a, b, k) {
     return vg_smin(vg_smax(x, a, k), b, k);
@@ -141,19 +133,22 @@ float vg_absmax(float a, b) {
  * Like VEX built-in `lerp()`, but I prefer naming used by GLSL
  * If called without `t`, uses t = 0.5
  */
-#define MIX(TYPE)                     \
+#define VG_MIX(TYPE)                  \
     TYPE vg_mix(const TYPE a, b, t) { \
         return a + (b - a) * t;       \
-    }                                 \
-    TYPE vg_mix(const TYPE a, b) {    \
-        return (a + b) * 0.5;         \
     }
+TYPE vg_mix(const TYPE a, b; float t) {
+    return a + (b - a) * t;
+}
+TYPE vg_mix(const TYPE a, b) {
+    return (a + b) * 0.5;
+}
 
-MIX(float)
-MIX(vector2)
-MIX(vector)
-MIX(vector4)
-#undef MIX
+VG_MIX(float)
+VG_MIX(vector2)
+VG_MIX(vector)
+VG_MIX(vector4)
+#undef VG_MIX
 
 /**
  * Bilinear interpolation:
@@ -165,7 +160,7 @@ MIX(vector4)
  * A   B
  *
  */
-#define MIX_BILINEAR(TYPE)                                          \
+#define VG_MIX_BILINEAR(TYPE)                                       \
     TYPE vg_mix_bilinear(const TYPE a, b, c, d; float u, v) {       \
         return vg_mix(vg_mix(a, b, u), vg_mix(c, d, u), v);         \
     }                                                               \
@@ -173,11 +168,11 @@ MIX(vector4)
         return vg_mix_bilinear(a, b, c, d, uv.x, uv.y);             \
     }
 
-MIX_BILINEAR(float)
-MIX_BILINEAR(vector2)
-MIX_BILINEAR(vector)
-MIX_BILINEAR(vector4)
-#undef MIX_BILINEAR
+VG_MIX_BILINEAR(float)
+VG_MIX_BILINEAR(vector2)
+VG_MIX_BILINEAR(vector)
+VG_MIX_BILINEAR(vector4)
+#undef VG_MIX_BILINEAR
 
 /**
  * Step function
@@ -216,62 +211,34 @@ vector4 vg_step(const vector4 e, t) {
  *
  * @returns 0 if t < e, 1 if t > e2, else interpolated value
  */
-#define SMOOTHSTEP(TYPE)                             \
+#define VG_SMOOTHSTEP(TYPE)                          \
     TYPE vg_smoothstep(const TYPE e, e2, t) {        \
         TYPE x = vg_clamp((t - e) / (e2 - e), 0, 1); \
         return (x * -2 + 3) * x * x;                 \
     }
 
-SMOOTHSTEP(float)
-SMOOTHSTEP(vector2)
-SMOOTHSTEP(vector)
-SMOOTHSTEP(vector4)
-#undef SMOOTHSTEP
+VG_SMOOTHSTEP(float)
+VG_SMOOTHSTEP(vector2)
+VG_SMOOTHSTEP(vector)
+VG_SMOOTHSTEP(vector4)
+#undef VG_SMOOTHSTEP
 
 /**
  * A softer version of smoothstep.
  *
  * @returns 0 if t < e, 1 if t > e2, else interpolated value
  */
-#define SMOOTHERSTEP(TYPE)                           \
+#define VG_SMOOTHERSTEP(TYPE)                        \
     TYPE vg_smootherstep(const TYPE e, e2, t) {      \
         TYPE x = vg_clamp((t - e) / (e2 - e), 0, 1); \
         return x * x * x * (x * (x * 6 - 15) + 10);  \
     }
 
-SMOOTHERSTEP(float)
-SMOOTHERSTEP(vector2)
-SMOOTHERSTEP(vector)
-SMOOTHERSTEP(vector4)
-#undef SMOOTHERSTEP
-
-/**
- * Computes value of one parameter modulo another
- */
-#define MOD(TYPE)                    \
-    TYPE vg_mod(TYPE x, y) {         \
-        return x - y * floor(x / y); \
-    }
-
-MOD(float)
-MOD(vector2)
-MOD(vector)
-MOD(vector4)
-#undef MOD
-
-/**
- * Returns fractional part of given value, i.e. `x - floor(x)`
- */
-#define FRACT(TYPE)             \
-    TYPE vg_fract(TYPE x) {     \
-        return x - vg_floor(x); \
-    }
-
-FRACT(float)
-FRACT(vector2)
-FRACT(vector)
-FRACT(vector4)
-#undef FRACT
+VG_SMOOTHERSTEP(float)
+VG_SMOOTHERSTEP(vector2)
+VG_SMOOTHERSTEP(vector)
+VG_SMOOTHERSTEP(vector4)
+#undef VG_SMOOTHERSTEP
 
 /**
  * Rounding functions w/ step value
@@ -286,6 +253,69 @@ float vg_ceil(float x, prec) {
 
 float vg_round(float x, prec) {
     return rint(x / prec) * prec;
+}
+
+#define VG_ROUND(NAME)                                                 \
+    vector2 NAME(vector2 v; float prec) {                              \
+        return set(NAME(v.x, prec), NAME(v.y, prec));                  \
+    }                                                                  \
+    vector NAME(vector v; float prec) {                                \
+        return set(NAME(v.x, prec), NAME(v.y, prec), NAME(v.z, prec)); \
+    }                                                                  \
+    vector4 NAME(vector4 v; float prec) {                              \
+        return set(NAME(v.x, prec), NAME(v.y, prec), NAME(v.z, prec),  \
+                   NAME(v.w, prec));                                   \
+    }
+
+VG_ROUND(vg_floor)
+VG_ROUND(vg_ceil)
+VG_ROUND(vg_round)
+#undef VG_ROUND
+
+/**
+ * Computes value of one parameter modulo another
+ */
+#define VG_MOD(TYPE)                       \
+    TYPE vg_mod(TYPE x, y) {               \
+        return x - y * vg_floor(x / y, 1); \
+    }
+
+VG_MOD(float)
+VG_MOD(vector2)
+VG_MOD(vector)
+VG_MOD(vector4)
+#undef VG_MOD
+
+/**
+ * Returns fractional part of given value, i.e. `x - floor(x)`
+ */
+#define VG_FRACT(TYPE)             \
+    TYPE vg_fract(TYPE x) {        \
+        return x - vg_floor(x, 1); \
+    }
+
+VG_FRACT(float)
+VG_FRACT(vector2)
+VG_FRACT(vector)
+VG_FRACT(vector4)
+#undef VG_FRACT
+
+int vg_eqdelta(float a, b, eps) {
+    return abs(a - b) <= eps;
+}
+
+int vg_eqdelta(vector2 a, b; float eps) {
+    return abs(a.x - b.x) <= eps && abs(a.y - b.y) <= eps;
+}
+
+int vg_eqdelta(vector a, b; float eps) {
+    return abs(a.x - b.x) <= eps && abs(a.y - b.y) <= eps &&
+           abs(a.z - b.z) <= eps;
+}
+
+int vg_eqdelta(vector4 a, b; float eps) {
+    return abs(a.x - b.x) <= eps && abs(a.y - b.y) <= eps &&
+           abs(a.z - b.z) <= eps && abs(a.w - b.w) <= eps;
 }
 
 #endif
