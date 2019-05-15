@@ -133,18 +133,25 @@ float vg_absmax(float a, b) {
  * Like VEX built-in `lerp()`, but I prefer naming used by GLSL
  * If called without `t`, uses t = 0.5
  */
-#define VG_MIX(TYPE)                  \
-    TYPE vg_mix(const TYPE a, b, t) { \
-        return a + (b - a) * t;       \
+#define VG_MIX(TYPE)                        \
+    TYPE vg_mix(const TYPE a, b, t) {       \
+        return a + (b - a) * t;             \
+    }                                       \
+    TYPE vg_mix(const TYPE a, b; float t) { \
+        return a + (b - a) * t;             \
+    }                                       \
+    TYPE vg_mix(const TYPE a, b) {          \
+        return (a + b) / 2;                 \
     }
-TYPE vg_mix(const TYPE a, b; float t) {
+
+float vg_mix(float a, b, t) {
     return a + (b - a) * t;
 }
-TYPE vg_mix(const TYPE a, b) {
-    return (a + b) * 0.5;
+
+float vg_mix(float a, b) {
+    return (a + b) / 2;
 }
 
-VG_MIX(float)
 VG_MIX(vector2)
 VG_MIX(vector)
 VG_MIX(vector4)
