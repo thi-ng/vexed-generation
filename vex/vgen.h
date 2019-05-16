@@ -13,7 +13,7 @@
 //  (c) 2016 Karsten Schmidt // ASL 2.0 licensed
 
 #define VG_VERSION_MAJOR 1
-#define VG_VERSION_MINOR 1
+#define VG_VERSION_MINOR 2
 #define VG_VERSION_PATCH 0
 
 #include <vgen_2d.h>
@@ -26,5 +26,7 @@
 #include <vgen_marchingsquares.h>
 #include <vgen_math.h>
 #include <vgen_osc.h>
+#include <vgen_plane.h>
 #include <vgen_ptf.h>
 #include <vgen_tessel.h>
+#include <vgen_vector.h>
