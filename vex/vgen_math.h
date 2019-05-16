@@ -325,4 +325,8 @@ int vg_eqdelta(vector4 a, b; float eps) {
            abs(a.z - b.z) <= eps && abs(a.w - b.w) <= eps;
 }
 
+int vg_sign(float x, eps) {
+    return vg_eqdelta(x, 0, eps) ? 0 : x < 0 ? -1 : 1;
+}
+
 #endif
