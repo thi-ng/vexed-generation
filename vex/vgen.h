@@ -14,7 +14,7 @@
 
 #define VG_VERSION_MAJOR 1
 #define VG_VERSION_MINOR 2
-#define VG_VERSION_PATCH 0
+#define VG_VERSION_PATCH 1
 
 #include <vgen_2d.h>
 #include <vgen_arrays.h>

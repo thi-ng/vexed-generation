@@ -61,7 +61,7 @@ vector vg_plane_closest_point(vector4 plane; vector p) {
 int vg_plane_intersect_plane(vector4 a, b; export vector pos, dir) {
     vector na = vg_vec3(a);
     vector nb = vg_vec3(b);
-    if (vg_eqdelta(na, nb, 1e-4) || vg_eqdelta(a.w, b.w, 1e-4)) {
+    if (vg_eqdelta(na, nb, 1e-4)) {
         return 0;
     }
     float dn  = dot(na, nb);
