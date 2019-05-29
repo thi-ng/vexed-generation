@@ -81,7 +81,7 @@ int vg_plane_intersect_plane(vector4 a, b; export vector pos, dir) {
  */
 int vg_plane_intersect_ray(vector4 plane; vector pos, dir; export vector isec) {
     vector n = vg_vec3(plane);
-    float d = dot(n, dir);
+    float d  = dot(n, dir);
     if (d < 1e-6) {
         isec = pos + dir * dot(n, n * plane.w - pos) / d;
         return 1;
