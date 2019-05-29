@@ -329,4 +329,22 @@ int vg_sign(float x, eps) {
     return vg_eqdelta(x, 0, eps) ? 0 : x < 0 ? -1 : 1;
 }
 
+int vg_in_range(float x, min, max) {
+    return x >= min && x <= max;
+}
+
+int vg_in_range(vector2 v, min, max) {
+    return vg_in_range(v.x, min.x, max.x) && vg_in_range(v.y, min.y, max.y);
+}
+
+int vg_in_range(vector v, min, max) {
+    return vg_in_range(v.x, min.x, max.x) && vg_in_range(v.y, min.y, max.y) &&
+           vg_in_range(v.z, min.z, max.z);
+}
+
+int vg_in_range(vector4 v, min, max) {
+    return vg_in_range(v.x, min.x, max.x) && vg_in_range(v.y, min.y, max.y) &&
+           vg_in_range(v.z, min.z, max.z) && vg_in_range(v.w, min.w, max.w);
+}
+
 #endif
