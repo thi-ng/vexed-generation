@@ -30,6 +30,23 @@ vector vg_closest_point_line(const vector a; const vector b; const vector p) {
 }
 
 /**
+ * Computes closest point to `p` in given array of point IDs.
+ * Returns -1 if `pts` was empty.
+ */
+int vg_closest_point_id(int geo; const int pts[]; const vector p) {
+    int closest = -1;
+    float minD = 1e6;
+    for (int i = len(pts); --i >= 0;) {
+        float d  = distance(p, point(geo, "P", pts[i]));
+        if (d < minD) {
+            minD    = d;
+            closest = pts[i];
+        }
+    }
+    return closest;
+}
+
+/**
  * Computes closest point on given set of edges (pairs of point IDs).
  */
 vector vg_closest_point_edges(int geo; const int edges[]; const vector p) {
