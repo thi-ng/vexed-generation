@@ -48,6 +48,9 @@ All functions, types/structs in this library are prefixed with `vg_`.
 ```c
 #include <vgen.h>
 
+// version check
+vg_min_version("1.4.0");
+
 // nearest scatter point
 int pid = nearpoint(1, @P);
 
@@ -118,6 +121,7 @@ ds->unified(0, 2);
 [Source](vex/vgen_distance.h)
 
 - `vector vg_closest_point_line(const vector a; const vector b; const vector p)`
+- `int vg_closest_point_id(int geo; const int pts[]; const vector p)`
 - `vector vg_closest_point_edges(int geo; const int edges[]; const vector p)`
 - `float vg_dist_manhattan(TYPE a, b)`
 - `float vg_dist_chebyshev(TYPE a, b)`
