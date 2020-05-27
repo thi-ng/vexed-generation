@@ -347,4 +347,56 @@ int vg_in_range(vector4 v, min, max) {
            vg_in_range(v.z, min.z, max.z) && vg_in_range(v.w, min.w, max.w);
 }
 
+int vg_minid(float a, b) {
+    return a <= b ? 0 : 1;
+}
+
+int vg_minid(float a, b, c) {
+    return a <= b ? (a <= c ? 0 : 2) : b <= c ? 1 : 2;
+}
+
+int vg_minid(float a, b, c, d) {
+    return a <= b
+        ? a <= c
+            ? a <= d
+                ? 0
+                : 3
+            : c <= d
+            ? 2
+            : 3
+        : b <= c
+        ? b <= d
+            ? 1
+            : 3
+        : c <= d
+        ? 2
+        : 3;
+}
+
+int vg_maxid(float a, b) {
+    return a >= b ? 0 : 1;
+}
+
+int vg_maxid(float a, b, c) {
+    return a >= b ? (a >= c ? 0 : 2) : b >= c ? 1 : 2;
+}
+
+int vg_maxid(float a, b, c, d) {
+    return a >= b
+        ? a >= c
+            ? a >= d
+                ? 0
+                : 3
+            : c >= d
+            ? 2
+            : 3
+        : b >= c
+        ? b >= d
+            ? 1
+            : 3
+        : c >= d
+        ? 2
+        : 3;
+}
+
 #endif
