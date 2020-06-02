@@ -11,6 +11,9 @@ libraries.
 
 ## Installation
 
+You can either [download a ZIP file](https://github.com/thi-ng/vexed-generation/releases)
+of this library or clone the repo via Git:
+
 ```bash
 git clone https://github.com/thi-ng/vexed-generation.git
 ```
