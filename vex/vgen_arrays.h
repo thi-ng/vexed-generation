@@ -37,4 +37,20 @@ VG_INTO(matrix3)
 VG_INTO(matrix)
 #undef VG_INTO
 
+#define VG_INDEXOF(TYPE) \
+    int vg_indexof(TYPE a[]; const TYPE x) { \
+        for(int i = 0, n = len(a); i < n; i++) { \
+            if (a[i] == x) return i; \
+        } \
+        return -1; \
+    }
+
+VG_INDEXOF(int)
+VG_INDEXOF(float)
+VG_INDEXOF(string)
+VG_INDEXOF(vector2)
+VG_INDEXOF(vector)
+VG_INDEXOF(vector4)
+#undef VG_INDEXOF
+
 #endif
