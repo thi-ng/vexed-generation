@@ -84,6 +84,15 @@ struct vgMSQ {
         h   = _h;
     }
 
+    void set_border(float b) {
+        for(int i = 0, j = (h - 1) * w; i < w; i++, j++) {
+            src[i] = src[j] = b;
+        }
+        for(int y = 1, i = w; y < h - 1; y++, i += w) {
+            src[i] = src[i + w - 1] = b;
+        }
+    }
+
     int[] encode_crossings() {
         int out[];
         resize(out, len(src));
