@@ -10,7 +10,7 @@
 //   \___  / \___  >___|  /\___  >__|  (____  /__| |__|\____/|___|  /
 //  /_____/      \/     \/     \/           \/                    \/
 //
-//  (c) 2016 Karsten Schmidt // ASL 2.0 licensed
+//  (c) 2016 - 2020 Karsten Schmidt // ASL 2.0 licensed
 
 #ifndef __vgen_arrays_h__
 #define __vgen_arrays_h__
@@ -37,12 +37,13 @@ VG_INTO(matrix3)
 VG_INTO(matrix)
 #undef VG_INTO
 
-#define VG_INDEXOF(TYPE) \
-    int vg_indexof(TYPE a[]; const TYPE x) { \
-        for(int i = 0, n = len(a); i < n; i++) { \
-            if (a[i] == x) return i; \
-        } \
-        return -1; \
+#define VG_INDEXOF(TYPE)                          \
+    int vg_indexof(TYPE a[]; const TYPE x) {      \
+        for (int i = 0, n = len(a); i < n; i++) { \
+            if (a[i] == x)                        \
+                return i;                         \
+        }                                         \
+        return -1;                                \
     }
 
 VG_INDEXOF(int)

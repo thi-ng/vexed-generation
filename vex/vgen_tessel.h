@@ -10,7 +10,7 @@
 //   \___  / \___  >___|  /\___  >__|  (____  /__| |__|\____/|___|  /
 //  /_____/      \/     \/     \/           \/                    \/
 //
-//  (c) 2016 Karsten Schmidt // ASL 2.0 licensed
+//  (c) 2016 - 2020 Karsten Schmidt // ASL 2.0 licensed
 
 #ifndef __vgen_tessel_h__
 #define __vgen_tessel_h__

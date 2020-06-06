@@ -10,7 +10,7 @@
 //   \___  / \___  >___|  /\___  >__|  (____  /__| |__|\____/|___|  /
 //  /_____/      \/     \/     \/           \/                    \/
 //
-//  (c) 2016 Karsten Schmidt // ASL 2.0 licensed
+//  (c) 2016 - 2020 Karsten Schmidt // ASL 2.0 licensed
 
 #ifndef __vgen_math_h__
 #define __vgen_math_h__
@@ -356,21 +356,8 @@ int vg_minid(float a, b, c) {
 }
 
 int vg_minid(float a, b, c, d) {
-    return a <= b
-        ? a <= c
-            ? a <= d
-                ? 0
-                : 3
-            : c <= d
-            ? 2
-            : 3
-        : b <= c
-        ? b <= d
-            ? 1
-            : 3
-        : c <= d
-        ? 2
-        : 3;
+    return a <= b ? a <= c ? a <= d ? 0 : 3 : c <= d ? 2 : 3
+                  : b <= c ? b <= d ? 1 : 3 : c <= d ? 2 : 3;
 }
 
 int vg_maxid(float a, b) {
@@ -382,21 +369,8 @@ int vg_maxid(float a, b, c) {
 }
 
 int vg_maxid(float a, b, c, d) {
-    return a >= b
-        ? a >= c
-            ? a >= d
-                ? 0
-                : 3
-            : c >= d
-            ? 2
-            : 3
-        : b >= c
-        ? b >= d
-            ? 1
-            : 3
-        : c >= d
-        ? 2
-        : 3;
+    return a >= b ? a >= c ? a >= d ? 0 : 3 : c >= d ? 2 : 3
+                  : b >= c ? b >= d ? 1 : 3 : c >= d ? 2 : 3;
 }
 
 #endif

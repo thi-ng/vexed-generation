@@ -10,7 +10,7 @@
 //   \___  / \___  >___|  /\___  >__|  (____  /__| |__|\____/|___|  /
 //  /_____/      \/     \/     \/           \/                    \/
 //
-//  (c) 2016 Karsten Schmidt // ASL 2.0 licensed
+//  (c) 2016 - 2020 Karsten Schmidt // ASL 2.0 licensed
 
 #ifndef __vgen_marchsq_h__
 #define __vgen_marchsq_h__
@@ -85,10 +85,10 @@ struct vgMSQ {
     }
 
     void set_border(float b) {
-        for(int i = 0, j = (h - 1) * w; i < w; i++, j++) {
+        for (int i = 0, j = (h - 1) * w; i < w; i++, j++) {
             src[i] = src[j] = b;
         }
-        for(int y = 1, i = w; y < h - 1; y++, i += w) {
+        for (int y = 1, i = w; y < h - 1; y++, i += w) {
             src[i] = src[i + w - 1] = b;
         }
     }

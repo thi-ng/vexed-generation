@@ -10,7 +10,7 @@
 //   \___  / \___  >___|  /\___  >__|  (____  /__| |__|\____/|___|  /
 //  /_____/      \/     \/     \/           \/                    \/
 //
-//  (c) 2016 Karsten Schmidt // ASL 2.0 licensed
+//  (c) 2016 - 2020 Karsten Schmidt // ASL 2.0 licensed
 
 #ifndef __vgen_distance_h__
 #define __vgen_distance_h__
@@ -35,9 +35,9 @@ vector vg_closest_point_line(const vector a; const vector b; const vector p) {
  */
 int vg_closest_point_id(int geo; const int pts[]; const vector p) {
     int closest = -1;
-    float minD = 1e6;
+    float minD  = 1e6;
     for (int i = len(pts); --i >= 0;) {
-        float d  = distance(p, point(geo, "P", pts[i]));
+        float d = distance(p, point(geo, "P", pts[i]));
         if (d < minD) {
             minD    = d;
             closest = pts[i];

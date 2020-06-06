@@ -10,7 +10,7 @@
 //   \___  / \___  >___|  /\___  >__|  (____  /__| |__|\____/|___|  /
 //  /_____/      \/     \/     \/           \/                    \/
 //
-//  (c) 2016 Karsten Schmidt // ASL 2.0 licensed
+//  (c) 2016 - 2020 Karsten Schmidt // ASL 2.0 licensed
 
 #define VG_STR(x) #x
 #define VG_STR2(x) VG_STR(x)
@@ -18,7 +18,7 @@
 // semantic versioning
 
 #define VG_VERSION_MAJOR 1
-#define VG_VERSION_MINOR 5
+#define VG_VERSION_MINOR 6
 #define VG_VERSION_PATCH 0
 #define VG_VERSION                                                        \
     (VG_STR2(VG_VERSION_MAJOR) "." VG_STR2(VG_VERSION_MINOR) "." VG_STR2( \
