@@ -78,6 +78,7 @@ float y2 = vg_osc_sin(@P.x, 4) + vg_osc_tri(@P.z, 4);
 [Source](vex/vgen_arrays.h)
 
 - `TYPE[] vg_into(TYPE a[]; const TYPE b[])`
+- `int vg_indexof(TYPE a[]; const TYPE b)`
 
 ### Attributes
 
@@ -139,12 +140,14 @@ Implementation based on
 ```c
 float data[];
 resize(data, cols * rows);
-for(int i = npoints(0); --i >= 0;) {
+for(int i = @numpt; --i >= 0;) {
     data[i] = vector(point(0,"P", i)).y;
 }
 
 vgMSQ msq;
 msq->init(data, cols, rows);
+// set border values
+msq->set_border(0);
 // extract contours for isovalue 0.1
 msq->find_contours(0, 0.1, ident());
 ```
@@ -177,6 +180,10 @@ msq->find_contours(0, 0.1, ident());
 - `float vg_signedArea2_xy(vector a,b,c)`
 - `float vg_signedArea2_xz(vector a,b,c)`
 - `float vg_signedArea2_yz(vector a,b,c)`
+- `int vg_sign(float x, eps)`
+- `int vg_in_range(TYPE x, min, max)`
+- `int vg_minid(float a, b, c?, d?)`
+- `int vg_maxid(float a, b, c?, d?)`
 
 ### Oscillators
 
@@ -222,8 +229,23 @@ Implementation based on [thi.ng/geom](https://github.com/thi-ng/geom/blob/develo
 - `int vg_add_triangle(int geo, a, b, c)`
 - `int[] vg_quad_strip(int geo; const int row1[]; const int row2[]; int num, closed)`
 
+### Vectors
+
+- `vector2 vg_vec2(float x, y)`
+- `vector2 vg_vec2(vector3 v)`
+- `vector2 vg_vec2(vector4 v)`
+- `vector vg_vec3(vector2 v)`
+- `vector vg_vec3(vector2 xy; float z)`
+- `vector vg_vec3(vector4 v)`
+- `vector4 vg_vec4(vector2 xy, zw)`
+- `vector4 vg_vec4(vector xyz; float w)`
+
+Here `TYPE` is one of `vector2`, `vector`, `vector4`:
+
+- `TYPE vg_swizzle(TYPE v; int x, y, z?, w?)`
+
 ## License
 
 This project is licensed under the Apache Software License 2.0
 
-&copy; 2016 Karsten Schmidt
+&copy; 2016 - 2020 Karsten Schmidt
