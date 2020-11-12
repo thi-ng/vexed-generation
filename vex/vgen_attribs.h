@@ -44,4 +44,52 @@ vector[] vg_point_positions(int geo, prim) {
     return vg_point_attribs_vector(geo, "P", primpoints(geo, prim));
 }
 
+#define MAX_FLOAT 1e38
+#define VG_ATTRIB_RANGE(ATYPE, ANUM)                                        \
+    float[] vg_##ATYPE##attrib_range_float(int geo; string id) {            \
+        float res[] = {MAX_FLOAT, -MAX_FLOAT};                              \
+        for (int i = ANUM(geo); --i >= 0;) {                                \
+            float v = ATYPE(geo, id, i);                                    \
+            res[0]  = min(res[0], v);                                       \
+            res[1]  = max(res[1], v);                                       \
+        }                                                                   \
+        return res;                                                         \
+    }                                                                       \
+    vector2[] vg_##ATYPE##attrib_range_vec2(int geo; string id) {           \
+        vector2 res[] = {{MAX_FLOAT, MAX_FLOAT}, {-MAX_FLOAT, -MAX_FLOAT}}; \
+        for (int i = ANUM(geo); --i >= 0;) {                                \
+            vector2 v = ATYPE(geo, id, i);                                  \
+            res[0]    = min(res[0], v);                                     \
+            res[1]    = max(res[1], v);                                     \
+        }                                                                   \
+        return res;                                                         \
+    }                                                                       \
+    vector[] vg_##ATYPE##attrib_range_vec3(int geo; string id) {            \
+        vector res[] = {{MAX_FLOAT, MAX_FLOAT, MAX_FLOAT},                  \
+                        {-MAX_FLOAT, -MAX_FLOAT, -MAX_FLOAT}};              \
+        for (int i = ANUM(geo); --i >= 0;) {                                \
+            vector v = ATYPE(geo, id, i);                                   \
+            res[0]   = min(res[0], v);                                      \
+            res[1]   = max(res[1], v);                                      \
+        }                                                                   \
+        return res;                                                         \
+    }                                                                       \
+    vector[] vg_##ATYPE##attrib_range_vec4(int geo; string id) {            \
+        vector res[] = {{MAX_FLOAT, MAX_FLOAT, MAX_FLOAT, MAX_FLOAT},       \
+                        {-MAX_FLOAT, -MAX_FLOAT, -MAX_FLOAT, -MAX_FLOAT}};  \
+        for (int i = ANUM(geo); --i >= 0;) {                                \
+            vector v = ATYPE(geo, id, i);                                   \
+            res[0]   = min(res[0], v);                                      \
+            res[1]   = max(res[1], v);                                      \
+        }                                                                   \
+        return res;                                                         \
+    }
+
+VG_ATTRIB_RANGE(point, npoints)
+VG_ATTRIB_RANGE(prim, nprimitives)
+VG_ATTRIB_RANGE(vertex, nvertices)
+
+#undef MAX_FLOAT
+#undef VG_ATTRIB_RANGE
+
 #endif
