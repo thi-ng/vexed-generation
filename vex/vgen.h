@@ -18,7 +18,7 @@
 // semantic versioning
 
 #define VG_VERSION_MAJOR 1
-#define VG_VERSION_MINOR 6
+#define VG_VERSION_MINOR 7
 #define VG_VERSION_PATCH 0
 #define VG_VERSION                                                        \
     (VG_STR2(VG_VERSION_MAJOR) "." VG_STR2(VG_VERSION_MINOR) "." VG_STR2( \
